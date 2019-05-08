@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.lanou.flight.mapper.OrderMapper">
+	
+	<!--添加订单  -->
+   <insert id="addOrder" parameterType="Order">
+  	INSERT into t_order(username,flightid,orderticket)
+  	 values(#{username},#{flightid},#{orderticket})
+  </insert>
+  
+  <!--订单加一  -->
+    <update id="addOrder1" parameterType="Order">
+    update t_order set orderticket  = orderticket + 1 where orderid=#{orderid}
+    </update>
+  
+  <!--查询订单是否存在  -->
+  <select id="selectOrder1" parameterType="Order"
+		resultType="Order">
+		select
+			 orderid
+		from 
+			 t_order
+		where  flightid = #{flightid} and username =#{username}
+  </select>
+  
+  <!--查询个人订单  -->
+  <select id="selectOrder" parameterType="String"
+		resultMap="getOrderMap">
+		select
+			 orderid,createDate,username,startDate,startTime,arrivalTime,price,punctuality,orderticket,state
+		from 
+			 t_order,t_flight where t_order.flightid=t_flight.flightid 
+		and  username=#{username}
+		
+  </select>
+  <resultMap type="Order" id="getOrderMap">
+        <id property="orderid" column="orderid"/>   
+        <result property="createDate" column="createDate"/>
+        <result property="username" column="username"/>
+        <result property="flightid" column="flightid"/>
+        <result property="orderticket" column="orderticket"/>
+        <result property="state" column="state"/>
+        <association property="flight" javaType="Flight">   
+            <id property="flightid" column="flightid"/>
+            <result property="startDate" column="startDate"/>
+            <result property="startTime" column="startTime"/>
+            <result property="arrivalTime" column="arrivalTime"/>
+            <result property="punctuality" column="punctuality"/>
+            <result property="price" column="price"/>
+        </association>
+    </resultMap>
+    
+    <!--删除订单  -->
+    <delete id="deleteOrder" parameterType="String">
+    delete from t_order where orderid=#{orderid}
+    </delete>
+    
+    <!--支付  -->
+    <update id="updateOrder" parameterType="String">
+    update t_order set state = 1  where orderid=#{orderid}
+    </update>
+    
+    <!--管理员查询所有订单  -->
+    <select id="selectOrderc" parameterType="Integer"
+		resultMap="getOrderMap">
+		select
+			 orderid,createDate,username,startDate,startTime,arrivalTime,price,punctuality,orderticket,state
+		from 
+			 t_order,t_flight where t_order.flightid=t_flight.flightid  limit #{page},5	
+  </select>
+  
+</mapper>

@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+html,body,h1,h2,p{margin:0;padding:0;}
+body{font-family:'droid sans fallback'}
+h1,h2{font:16px/44px '';color:#000;height:44px;text-align:center;}
+h1{background:#46b4e6}
+h2{color:#333333;padding-top:40px;height:40px}
+.cz_pass{color:#949494;line-height:18px;font-size:13px;text-align:center;padding-bottom:18px}
+.pass_p,.pass_p_align{height:35px;border-bottom:1px solid #dadada;margin:0 15px;padding-top:25px}
+.pass_p p,.pass_p_align p{font-size:13px;color:#dadada;padding-top: 2px;}
+.pass_p input,.pass_p_align input{border:none;float:left;margin-top:3px;}
+.pass_p label,.pass_p_align label{font-size:16px;color:#949494;float:left;margin-right:15px}
+.cz_btn{font-size:17px;color:#46b5e6;text-decoration:none;text-align:center;margin:27px 15px 0;border:1px solid #46b5e6;border-radius:5px;display:block;height:40px;line-height:40px}
+

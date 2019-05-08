@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.lanou.flight.mapper.FlightMapper">
+ 
+ 	<!--前台查询航班信息  -->
+  <select id="selectFlight" resultType="Flight">
+		select 
+			flightid,flighname,StartDate,StartTime,ArrivalTime,StartCity,ArrivalCity,Price,punctuality,ticket
+		from t_flight
+		<where>
+			<if test="flight.flightid!=0 and flight.flightid!=null">
+				and flightid=#{flight.flightid}
+			</if>
+			<if test="flight.flighname!=null">
+				and flighname=#{flight.flighname}
+			</if>
+			<if test="flight.startDate!=null">
+				and startDate=#{flight.startDate}
+			</if>
+			<if test="flight.startCity!=null and flight.startCity!=''">
+				and startCity=#{flight.startCity}
+			</if>
+			<if test="flight.arrivalCity!=null  and flight.arrivalCity!=''">
+				and arrivalCity=#{flight.arrivalCity}
+			</if>
+			<if test="flight.price!=0 and flight.price != null ">
+				and price=#{flight.price}
+			</if>
+			<if test="flight.ticket!=0 and flight.ticket!= null">
+				and ticket=#{flight.ticket}
+			</if>
+		</where>
+		limit #{page},5		
+	</select>
+	
+	<!--分页查询航班信息  -->
+	<select id="selectFlightPage" resultType="Flight" parameterType="Integer">
+		select 
+			flightid,flighname,startDate,startTime,arrivalTime,startCity,arrivalCity,price,punctuality,ticket
+		from t_flight limit #{page},5	
+	</select>
+	
+	<!--添加航班信息 -->
+	<insert id="insertFlight" parameterType="Flight">
+		insert into
+		t_flight
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="flighname!=null">
+				flighname,
+			</if>
+			<if test="startDate != null">
+				startDate,
+			</if>
+			<if test="startTime!=null">
+				startTime,
+			</if>
+			<if test="arrivalTime!=null">
+				arrivalTime,
+			</if>
+			<if test="startCity!=null">
+				startCity,
+			</if>
+			<if test="arrivalCity!=null">
+				arrivalCity,
+			</if>
+			<if test="price!=0">
+				price,
+			</if>
+			<if test="punctuality!=null">
+				punctuality,
+			</if>
+			<if test="ticket!=0 and ticket != null">
+				ticket
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			
+			<if test="flighname!=null">
+				#{flighname},
+			</if>
+			<if test="startDate != null">
+				#{startDate},
+			</if>
+			<if test="startTime!=null">
+				#{startTime},
+			</if>
+			<if test="arrivalTime!=null">
+				#{arrivalTime},
+			</if>
+			<if test="startCity!=null">
+				#{startCity},
+			</if>
+			<if test="arrivalCity!=null">
+				#{arrivalCity},
+			</if>
+			<if test="price!=0">
+				#{price},
+			</if>
+			<if test="punctuality!=null">
+				#{punctuality},
+			</if>
+			<if test="ticket!=0 and ticket != null">
+				#{ticket}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 删除航班信息 -->
+	<delete id="deleteFlight" parameterType="Integer">
+	delete from t_flight where flightid = #{flightid}
+	</delete>
+	
+	<!--修改航班信息  -->
+	<update id="updateFlight" parameterType="Flight">
+		update 
+			t_flight
+		<set>
+			<if test="flighname!=null">
+				flighname=#{flighname},
+			</if>
+			<if test="startDate != null">
+				startDate=#{startDate},
+			</if>
+			<if test="startTime!=null">
+				startTime=#{startTime},
+			</if>
+			<if test="arrivalTime!=null">
+				arrivalTime=#{arrivalTime},
+			</if>
+			<if test="startCity!=null">
+				startCity=#{startCity},
+			</if>
+			<if test="arrivalCity!=null">
+				arrivalCity=#{arrivalCity},
+			</if>
+			<if test="price!=0 and price != null">
+				price=#{price},
+			</if>
+			<if test="punctuality!=null">
+				punctuality=#{punctuality},
+			</if>
+			<if test="ticket!=0 and ticket != null">
+				ticket=#{ticket}
+			</if>
+		</set>
+		where 
+			flightid = #{flightid}
+	</update>
+
+ 
+ 	<!--航班票数减一 -->
+ 	 <update id="minusFlight" parameterType="Integer">
+    update t_flight set ticket  = ticket - 1 where flightid=#{flightid}
+    </update>
+</mapper>

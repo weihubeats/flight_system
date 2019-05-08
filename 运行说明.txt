@@ -1,0 +1,2 @@
+首先执行flight.sql 创建数据库
+使用编辑器为Eclipse  Jkd1.8  服务器： Tomcat7.0  操作系统：Windows

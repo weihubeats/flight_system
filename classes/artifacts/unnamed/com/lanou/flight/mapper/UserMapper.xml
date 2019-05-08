@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.lanou.flight.mapper.UserMapper">
+	
+	<!--添加普通用户  -->
+   <insert id="addUser" parameterType="User">
+  	INSERT into t_user(username,userpassword,userphone,usermail,useridentity)
+  	 values(#{username},#{userpassword},#{userphone},#{usermail},#{useridentity})
+  </insert>
+  
+  <!--添加管理员  -->
+   <insert id="addUserc" parameterType="User">
+  	INSERT into t_user(username,userpassword,userphone,useridentity,usermail,jurisdiction)
+  	 values(#{username},#{userpassword},#{userphone},#{useridentity},#{usermail},2)
+  </insert>
+  
+  <!--登入  -->
+  <select id="entry" parameterType="User"
+		resultType="User">
+		select
+			*
+		from t_user where
+			  username=#{username} and userpassword=#{userpassword}
+  </select>
+  
+  <!--查询所有用户信息  -->
+  <select id="selectUser" parameterType="Integer" resultType="User">
+   select userid,username,userphone,useridentity,usermail from t_user where jurisdiction=1 limit #{page},5
+  </select>
+  
+  <!--查看用户个人信息  -->
+  <select id="selectUser1" parameterType="Integer" resultType="User">
+   select userid,username,userpassword,userphone,useridentity,usermail from t_user where userid=#{userid}
+  </select>
+  
+  <!--修改个人信息  -->
+  <update id="updatetUser" parameterType="User">
+		update 
+			t_user
+		<set>
+			<if test="username!=null">
+				username=#{username},
+			</if>
+			<if test="userpassword != null">
+				userpassword=#{userpassword},
+			</if>
+			<if test="userphone!=null">
+				userphone=#{userphone},
+			</if>
+			<if test="useridentity!=null">
+				useridentity=#{useridentity},
+			</if>
+			<if test="usermail!=null">
+				usermail=#{usermail}
+			</if>
+		</set>
+		where 
+			userid = #{userid}
+	</update>
+  
+  <!--找回密码  -->
+  <select id="findPassword" parameterType="String" resultType="User">
+   select userid,username,userpassword,userphone,useridentity,usermail from t_user where usermail=#{usermail}
+  </select>
+  
+  
+</mapper>

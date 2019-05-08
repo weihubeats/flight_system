@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>flight_system</display-name>
+  <welcome-file-list>
+  <welcome-file>entry.jsp</welcome-file>
+ 	<welcome-file>entry.html</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 载入SPRING文件 -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  
+  
+  <!-- 载入springmvc文件 -->
+	<servlet>
+		<servlet-name>DispatchServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+		  	<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:Springmvc.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>DispatchServlet</servlet-name>
+		<url-pattern>*.json</url-pattern><!-- 此处所有请求都由SPRINGMVC处理 -->
+	</servlet-mapping>
+  
+  
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>com.lanou.flight.handlerInterceptor.AuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  
+</web-app>
